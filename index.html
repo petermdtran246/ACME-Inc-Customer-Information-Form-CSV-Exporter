@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ACME Inc - Customer Information Form</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>ACME Inc</h1>
+        </header>
+
+        <main>
+            <h2>Customer Information Form</h2>
+            <p>Please fill out the form below so we can add you to our customer list.</p>
+            <p>Fields marked with * are required.</p>
+
+            <div id="converter-container">
+                <!-- sends everything to process.php, which turns it into a CSV line -->
+                <form id="customer-form" class="converter-form" method="post" action="process.php">
+
+                    <!-- personal info, has both text and number fields -->
+                    <fieldset>
+                        <legend>Personal Information</legend>
+
+                        <div class="input-group">
+                            <label for="firstName">First Name *</label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                placeholder="e.g., John"
+                                required
+                                autofocus
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="lastName">Last Name *</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                placeholder="e.g., Doe"
+                                required
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="email">Email Address *</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="e.g., john.doe@example.com"
+                                required
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="phone">Phone Number *</label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="e.g., 312-555-0199"
+                                required
+                            >
+                        </div>
+
+                        <!-- age is the numeric field -->
+                        <div class="input-group">
+                            <label for="age">Age *</label>
+                            <input
+                                type="number"
+                                id="age"
+                                name="age"
+                                min="18"
+                                max="120"
+                                placeholder="e.g., 28"
+                                required
+                            >
+                        </div>
+                    </fieldset>
+
+                    <!-- mailing address -->
+                    <fieldset>
+                        <legend>Mailing Address</legend>
+
+                        <div class="input-group">
+                            <label for="street">Street Address *</label>
+                            <input
+                                type="text"
+                                id="street"
+                                name="street"
+                                placeholder="e.g., 100 Main St"
+                                required
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="city">City *</label>
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                placeholder="e.g., Chicago"
+                                required
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="state">State *</label>
+                            <select id="state" name="state" required>
+                                <option value="">-- Select a State --</option>
+                                <option value="CA">California (CA)</option>
+                                <option value="FL">Florida (FL)</option>
+                                <option value="IL">Illinois (IL)</option>
+                                <option value="KY">Kentucky (KY)</option>
+                                <option value="NY">New York (NY)</option>
+                                <option value="TX">Texas (TX)</option>
+                                <option value="WA">Washington (WA)</option>
+                            </select>
+                        </div>
+
+                        <!-- zip is text on purpose, a number field would drop the 0 in zips like 02108 -->
+                        <div class="input-group">
+                            <label for="zipCode">Zip Code *</label>
+                            <input
+                                type="text"
+                                id="zipCode"
+                                name="zipCode"
+                                inputmode="numeric"
+                                pattern="[0-9]{5}"
+                                maxlength="5"
+                                title="Please enter a 5 digit zip code"
+                                placeholder="e.g., 60601"
+                                required
+                            >
+                        </div>
+                    </fieldset>
+
+                    <!-- radio buttons and checkboxes -->
+                    <fieldset>
+                        <legend>Account Preferences</legend>
+
+                        <!-- only one account type can be picked -->
+                        <fieldset class="choice-group">
+                            <legend>Customer Account Type *</legend>
+                            <div class="choice-list">
+                                <label class="choice-item" for="typeIndividual">
+                                    <input type="radio" id="typeIndividual" name="accountType" value="Individual" checked>
+                                    Individual
+                                </label>
+
+                                <label class="choice-item" for="typeBusiness">
+                                    <input type="radio" id="typeBusiness" name="accountType" value="Business">
+                                    Business
+                                </label>
+
+                                <label class="choice-item" for="typeNonProfit">
+                                    <input type="radio" id="typeNonProfit" name="accountType" value="Non-Profit">
+                                    Non-Profit
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <!-- interests[] so PHP gets all the checked boxes as an array -->
+                        <fieldset class="choice-group">
+                            <legend>Product Interests (pick any that apply)</legend>
+                            <div class="choice-list">
+                                <label class="choice-item" for="intHardware">
+                                    <input type="checkbox" id="intHardware" name="interests[]" value="Hardware">
+                                    Hardware
+                                </label>
+
+                                <label class="choice-item" for="intSoftware">
+                                    <input type="checkbox" id="intSoftware" name="interests[]" value="Software">
+                                    Software
+                                </label>
+
+                                <label class="choice-item" for="intCloud">
+                                    <input type="checkbox" id="intCloud" name="interests[]" value="Cloud Services">
+                                    Cloud Services
+                                </label>
+
+                                <label class="choice-item" for="intSupport">
+                                    <input type="checkbox" id="intSupport" name="interests[]" value="Technical Support">
+                                    Technical Support
+                                </label>
+                            </div>
+                        </fieldset>
+                    </fieldset>
+
+                    <div class="button-group">
+                        <button type="submit" class="converter-btn">Submit Customer Data</button>
+                        <button type="reset" class="reset-btn">Clear Form</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Peter Tran</p>
+        </footer>
+    </body>
+</html>
